@@ -9,8 +9,8 @@ def test(message):
     message.reply("Greetings!")
 
 
-@respond_to("testtls", re.IGNORECASE)
-def testtls(message):
+@respond_to("tls", re.IGNORECASE)
+def tls(message):
     """Send test tls message."""
     with open("data/tls.json") as f:
         data = json.load(f)
