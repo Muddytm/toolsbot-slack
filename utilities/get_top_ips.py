@@ -15,5 +15,5 @@ for line in lines:
     else:
         data[ip] += 1
 
-with open("data/tls.json") as f:
+with open("data/tls.json", "w") as f:
     json.dump(data, f)
