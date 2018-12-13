@@ -12,7 +12,7 @@ def test(message):
 @respond_to("tls", re.IGNORECASE)
 def tls(message):
     """Send test tls message."""
-    with open("data/tls.json") as f:
+    with open("data/tls.json", "w") as f:
         data = json.load(f)
 
     topten = ""
