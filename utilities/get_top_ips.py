@@ -1,3 +1,4 @@
+import json
 import os
 
 
@@ -14,4 +15,5 @@ for line in lines:
     else:
         data[ip] += 1
 
-print (data)
+with open("data/tls.json") as f:
+    json.dump(data, f)
