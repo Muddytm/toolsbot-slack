@@ -2,7 +2,7 @@ import config
 import json
 from slackbot.bot import respond_to
 import re
-import urllib2
+import urllib.request as urllib2
 
 
 @respond_to("test", re.IGNORECASE)
@@ -28,7 +28,7 @@ def tls(message):
                 count = data[ip]
 
         url = "https://api.ipdata.co/{}?api-key={}".format(name,
-                                                           config[ip_api_key])
+                                                           config.ip_api_key)
         response = urllib2.urlopen(url)
         ip_data = response.read()
         info = json.loads(ip_data)
