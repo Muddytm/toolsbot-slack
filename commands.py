@@ -70,10 +70,10 @@ def tls(message):
 
     file_list = glob.glob("/mnt/TLS/*.txt")
     latest = max(file_list, key=os.path.getctime)
-    latest_tokens = latest.split("-")
+    latest_tokens = latest.replace(".txt", "").split("-")
     date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
 
-    message.reply("TLS 1.0/1.1 summary for {}:\n{}".format(date, topten))
+    message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
 
 
 @respond_to("start", re.IGNORECASE)
