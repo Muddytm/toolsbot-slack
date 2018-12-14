@@ -1,3 +1,4 @@
+import utilities.config as config
 import json
 import os
 from slackbot.bot import respond_to
@@ -40,12 +41,14 @@ def tls(message):
                 name = ip
                 count = data[ip]
 
+        rename = False
         org = "Unknown"
         for set in cache:
             if name in cache[set]:
                 org = set
                 for other_ip in cache[set]:
                     if other_ip != name:
+                        rename = True
                         count += data[other_ip]
                         del data[other_ip]
 
@@ -53,6 +56,14 @@ def tls(message):
                 break
 
         del data[name]
+
+        if rename:
+            name = "Multiple IPs"
+        else:
+            url = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
+                                                                    config.ip_api_key,
+                                                                    name)
+
         percentage = "%.2f" % float((count/total)*100.)
         topten += "\n{} ({}): {}%".format(org, name, str(percentage))
 
