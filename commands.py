@@ -1,4 +1,5 @@
 import utilities.config as config
+import glob
 import json
 import os
 from slackbot.bot import respond_to
@@ -67,7 +68,12 @@ def tls(message):
         percentage = "%.2f" % float((count/total)*100.)
         topten += "\n{} ({}): {}%".format(org, name, str(percentage))
 
-    message.reply("TLS 1.0/1.1 summary:\n```{}```".format(topten))
+    file_list = glob.glob("/mnt/TLS/*.txt")
+    latest = max(file_list, key=os.path.getctime)
+    latest_tokens = latest.split("-")
+    date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
+
+    message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(topten, date))
 
 
 @respond_to("start", re.IGNORECASE)
