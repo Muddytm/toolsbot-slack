@@ -33,12 +33,12 @@ def tls(message):
         ip_data = response.read()
         info = json.loads(ip_data)
 
-        org = ""
+        org = "Unknown"
         if "organisation" in info:
-            org = " ({})".format(info["organisation"])
+            org = info["organisation"]
 
 
-        topten += "\n{}{}: {}".format(name, org, str(count))
+        topten += "\n{} ({}): {}".format(org, name, str(count))
         del data[name]
 
     message.reply("```{}```".format(topten))
