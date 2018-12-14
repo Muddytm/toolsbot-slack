@@ -4,7 +4,7 @@ import os
 
 file_list = glob.glob("/mnt/TLS/*.txt")
 latest = max(file_list, key=os.path.getctime)
-print (latest)
+#print (latest)
 lines = open(latest).readlines()
 
 data = {}

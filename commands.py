@@ -1,5 +1,6 @@
 import config
 import json
+import os
 from slackbot.bot import respond_to
 import re
 import urllib.request as urllib2
@@ -17,8 +18,15 @@ def tls(message):
     with open("data/tls.json") as f:
         data = json.load(f)
 
+    if os.path.exists("data/tls_cache.json"):
+        with open("data/tls_cache.json") as f:
+            cache = json.load(f)
+    else:
+        cache = {}
+
     total = 0
     topten = ""
+    results = []
 
     for ip in data:
         total += data[ip]
@@ -34,21 +42,45 @@ def tls(message):
                 count = data[ip]
 
         # Stuff for determining name of IP address owner
-        url = "https://api.ipdata.co/{}?api-key={}".format(name,
-                                                           config.ip_api_key)
-        response = urllib2.urlopen(url)
-        ip_data = response.read()
-        info = json.loads(ip_data)
+        org = None
+        for orgname in cache:
+            if name in cache[orgname]:
+                org = orgname
 
-        org = "Unknown"
-        if "organisation" in info:
-            org = info["organisation"]
+        if not org:
+            url = "https://api.ipdata.co/{}?api-key={}".format(name,
+                                                               config.ip_api_key)
+            response = urllib2.urlopen(url)
+            ip_data = response.read()
+            info = json.loads(ip_data)
 
-        percentage = float((count/total)*100.)
+            org = "Unknown"
+            if "organisation" in info:
+                org = info["organisation"]
 
-        # Appending stuff to the line
-        topten += "\n{} ({}): {}%".format(org, name, str(percentage))
+            if org not in cache:
+                cache[org] = []
+
+            if name not in cache[org]:
+                cache[org].append(name)
+
+        changed = False
+        for result in results:
+            if result[0] == org:
+                result[1] = "Multiple IPs"
+                result[2] += count
+                changed = True
+                break
+
+        if not changed:
+            results.append([org, name, count])
+
         del data[name]
+
+    for result in results:
+        percentage = "%.2f" % float((result[2]/total)*100.)
+        topten += "\n{} ({}): {}%".format(result[0], result[1], str(percentage))
+
 
     message.reply("TLS 1.0/1.1 summary:\n```{}```".format(topten))
 
