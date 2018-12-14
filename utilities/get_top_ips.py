@@ -1,9 +1,11 @@
+import glob
 import json
 import os
 
-
-for file in os.listdir("/mnt/TLS"):
-    lines = open("/mnt/TLS/" + file).readlines()
+file_list = glob.glob("/mnt/TLS/*.txt")
+latest = max(file_list, key=os.path.getctime)
+print (latest)
+lines = open("/mnt/TLS/" + file).readlines()
 
 data = {}
 

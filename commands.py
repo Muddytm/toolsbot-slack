@@ -17,16 +17,24 @@ def tls(message):
     with open("data/tls.json") as f:
         data = json.load(f)
 
+    counts =
+    total = 0
     topten = ""
+
+    for ip in data:
+        total += data[ip]
 
     for i in range(10):
         name = ""
         count = 0
         for ip in data:
+            total += data[ip]
+
             if data[ip] > count:
                 name = ip
                 count = data[ip]
 
+        # Stuff for determining name of IP address owner
         url = "https://api.ipdata.co/{}?api-key={}".format(name,
                                                            config.ip_api_key)
         response = urllib2.urlopen(url)
@@ -37,8 +45,10 @@ def tls(message):
         if "organisation" in info:
             org = info["organisation"]
 
+        percentage = float((count/total)*100.)
 
-        topten += "\n{} ({}): {}".format(org, name, str(count))
+        # Appending stuff to the line
+        topten += "\n{} ({}): {}%".format(org, name, str(percentage))
         del data[name]
 
     message.reply("```{}```".format(topten))
