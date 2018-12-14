@@ -115,6 +115,8 @@ def starttls(message):
                 return
 
             total = 0
+            top_ip = ""
+            top_ip_count = 0
             topten = ""
             results = []
 
@@ -129,6 +131,8 @@ def starttls(message):
                     if data[ip] > count:
                         name = ip
                         count = data[ip]
+                        top_ip = name
+                        top_ip_count = count
 
                 rename = False
                 org = "Unknown"
@@ -136,6 +140,10 @@ def starttls(message):
                     if name in cache[set]:
                         org = set
                         for other_ip in cache[set]:
+                            if data[other_ip] > top_ip_count:
+                                top_ip = other_ip
+                                top_ip_count = data[other_ip]
+
                             if other_ip != name:
                                 rename = True
                                 count += data[other_ip]
@@ -147,7 +155,8 @@ def starttls(message):
                 del data[name]
 
                 if rename:
-                    name = "Multiple IPs"
+                    name = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(top_ip,
+                                                                                       config.ip_api_key)
                 else:
                     name = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
                                                                              config.ip_api_key,
