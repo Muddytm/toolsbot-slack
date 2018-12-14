@@ -85,7 +85,7 @@ def starttls(message):
     if tls_check:
         return
     else:
-        message._client.send_message("mcg_toolsbot", "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
+        message._client.send_message("mcg_sysops", "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
         while True:
             if os.path.exists("data/jobs.json"):
                 with open("data/jobs.json") as f:
@@ -161,7 +161,7 @@ def starttls(message):
             latest_tokens = latest.replace(".txt", "").split("-")
             date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
 
-            message._client.send_message("mcg_toolsbot", "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
+            message._client.send_message("mcg_sysops", "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
 
 
 @respond_to("start", re.IGNORECASE)
