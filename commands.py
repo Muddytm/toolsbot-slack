@@ -61,9 +61,9 @@ def tls(message):
         if rename:
             name = "Multiple IPs"
         else:
-            url = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
-                                                                    config.ip_api_key,
-                                                                    name)
+            name = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
+                                                                     config.ip_api_key,
+                                                                     name)
 
         percentage = "%.2f" % float((count/total)*100.)
         topten += "\n{} ({}): {}%".format(org, name, str(percentage))
@@ -73,7 +73,7 @@ def tls(message):
     latest_tokens = latest.split("-")
     date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
 
-    message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(topten, date))
+    message.reply("TLS 1.0/1.1 summary for {}:\n{}".format(date, topten))
 
 
 @respond_to("start", re.IGNORECASE)
