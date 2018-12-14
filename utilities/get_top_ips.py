@@ -29,7 +29,7 @@ else:
     cache = {}
 
 for ip in data:
-    url = "https://api.ipdata.co/{}?api-key={}".format(name,
+    url = "https://api.ipdata.co/{}?api-key={}".format(ip,
                                                        config.ip_api_key)
     response = urllib2.urlopen(url)
     ip_data = response.read()
