@@ -17,7 +17,6 @@ def tls(message):
     with open("data/tls.json") as f:
         data = json.load(f)
 
-    counts =
     total = 0
     topten = ""
 
@@ -51,7 +50,7 @@ def tls(message):
         topten += "\n{} ({}): {}%".format(org, name, str(percentage))
         del data[name]
 
-    message.reply("```{}```".format(topten))
+    message.reply("TLS 1.0/1.1 summary:\n```{}```".format(topten))
 
 
 @respond_to("start", re.IGNORECASE)
