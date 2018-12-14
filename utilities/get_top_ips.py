@@ -6,7 +6,7 @@ import urllib.request as urllib2
 
 file_list = glob.glob("/mnt/TLS/*.txt")
 latest = max(file_list, key=os.path.getctime)
-#print (latest)
+print ("Getting info from..." + latest)
 lines = open(latest).readlines()
 
 data = {}
