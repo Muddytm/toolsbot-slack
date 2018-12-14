@@ -13,7 +13,7 @@ for line in lines:
     ip = line.split("ClientIP")[1].strip().split()[0]
 
     if ip not in data:
-        data[ip] = 0
+        data[ip] = 1
     else:
         data[ip] += 1
 
