@@ -3,6 +3,7 @@ import glob
 import json
 import os
 from slackbot.bot import respond_to
+from slackbot.bot import listen_to
 import re
 import time
 import urllib.request as urllib2
@@ -84,13 +85,16 @@ def starttls(message):
     if tls_check:
         return
     else:
+        message._client.send_message("mcg_toolsbot", "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
         while True:
             if os.path.exists("data/jobs.json"):
                 with open("data/jobs.json") as f:
                     jobs = json.load(f)
 
                 if "TLS" in jobs:
+                    print (jobs)
                     jobs.remove("TLS")
+                    print (jobs)
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
                 else:
@@ -157,7 +161,7 @@ def starttls(message):
             latest_tokens = latest.replace(".txt", "").split("-")
             date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
 
-            message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
+            message._client.send_message("mcg_toolsbot", "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
 
 
 @respond_to("start", re.IGNORECASE)
