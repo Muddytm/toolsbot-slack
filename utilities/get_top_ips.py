@@ -32,11 +32,14 @@ else:
 for ip in data:
     url = "https://api.ipdata.co/{}?api-key={}".format(ip,
                                                        config.ip_api_key)
-    response = urllib2.urlopen(url)
-    ip_data = response.read()
-    info = json.loads(ip_data)
+    try:
+        response = urllib2.urlopen(url)
+        ip_data = response.read()
+        info = json.loads(ip_data)
+    except urllib.error.HTTPError:
+        info = {}
 
-    org = "Unknown"
+    org = "Unknown/Private"
     if "organisation" in info:
         org = info["organisation"]
 
