@@ -36,7 +36,8 @@ for ip in data:
         response = urllib2.urlopen(url)
         ip_data = response.read()
         info = json.loads(ip_data)
-    except urllib.error.HTTPError:
+    except Exception as e: #placeholder since the specified exception was apparently not defined...?
+        print (e)
         info = {}
 
     org = "Unknown/Private"
