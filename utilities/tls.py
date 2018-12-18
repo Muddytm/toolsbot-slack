@@ -55,17 +55,17 @@ def sort_tls(limit=10):
                                                                                  config.ip_api_key,
                                                                                  ip_name)
 
-    org_name = ""
-    org_count = 0
     for i in range(limit):
+        org_name = ""
+        org_count = 0
         for org in orgs:
             if orgs[org]["count"] > org_count:
                 org_name = org
                 org_count = orgs[org]["count"]
 
-
-        percentage = "%.2f" % float((orgs[org]["count"]/total)*100.)
-        top += "\n{} ({}): {}%".format(org, orgs[org]["url"], str(percentage))
+        percentage = "%.2f" % float((orgs_count/total)*100.)
+        top += "\n{} ({}): {}%".format(org_name, orgs[org]["url"], str(percentage))
+        del orgs[org_name]
 
 
     file_list = glob.glob("/mnt/TLS/*.txt")
