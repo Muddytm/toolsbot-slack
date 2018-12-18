@@ -6,6 +6,7 @@ from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 import re
 import time
+import utilities.tls as tls
 import urllib.request as urllib2
 
 tls_check = False
@@ -19,72 +20,13 @@ def test(message):
 @respond_to("tls", re.IGNORECASE)
 def tls(message):
     """Send test tls message."""
-    with open("data/tls.json") as f:
-        data = json.load(f)
+    date, top, status = tls.sort_tls()
 
-    if os.path.exists("data/tls_cache.json"):
-        with open("data/tls_cache.json") as f:
-            cache = json.load(f)
-    else:
-        message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
+    if status == 0:
+        message.reply("Something broke. Ask Caleb what happened.")
         return
 
-    total = 0
-    top_ip = ""
-    top_ip_count = 0
-    topten = ""
-    results = []
-
-    for ip in data:
-        total += data[ip]
-
-    for i in range(10):
-        name = ""
-        count = 0
-
-        for ip in data:
-            if data[ip] > count:
-                name = ip
-                count = data[ip]
-                top_ip = name
-                top_ip_count = count
-
-        rename = False
-        org = "Unknown"
-        for set in cache:
-            if name in cache[set]:
-                org = set
-                for other_ip in cache[set]:
-                    if other_ip != name and other_ip in data:
-                        if data[other_ip] > top_ip_count:
-                            top_ip = other_ip
-                            top_ip_count = data[other_ip]
-                        rename = True
-                        count += data[other_ip]
-                        del data[other_ip]
-
-                del cache[set]
-                break
-
-        del data[name]
-
-        if rename:
-            name = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(top_ip,
-                                                                               config.ip_api_key)
-        else:
-            name = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
-                                                                     config.ip_api_key,
-                                                                     name)
-
-        percentage = "%.2f" % float((count/total)*100.)
-        topten += "\n{} ({}): {}%".format(org, name, str(percentage))
-
-    file_list = glob.glob("/mnt/TLS/*.txt")
-    latest = max(file_list, key=os.path.getctime)
-    latest_tokens = latest.replace(".txt", "").split("-")
-    date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
-
-    message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
+    message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
 
 
 @listen_to("starttls", re.IGNORECASE)
@@ -93,7 +35,7 @@ def starttls(message):
     if tls_check:
         return
     else:
-        message._client.send_message("mcg_sysops", "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
+        message._client.send_message(config.main_chan, "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
         while True:
             if os.path.exists("data/jobs.json"):
                 with open("data/jobs.json") as f:
@@ -122,62 +64,13 @@ def starttls(message):
                 #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
                 return
 
-            total = 0
-            top_ip = ""
-            top_ip_count = 0
-            topten = ""
-            results = []
+            date, top, status = tls.sort_tls()
 
-            for ip in data:
-                total += data[ip]
+            if status == 0:
+                message.reply("Something broke. Ask Caleb what happened.")
+                return
 
-            for i in range(10):
-                name = ""
-                count = 0
-
-                for ip in data:
-                    if data[ip] > count:
-                        name = ip
-                        count = data[ip]
-                        top_ip = name
-                        top_ip_count = count
-
-                rename = False
-                org = "Unknown"
-                for set in cache:
-                    if name in cache[set]:
-                        org = set
-                        for other_ip in cache[set]:
-                            if other_ip != name and other_ip in data:
-                                if data[other_ip] > top_ip_count:
-                                    top_ip = other_ip
-                                    top_ip_count = data[other_ip]
-                                rename = True
-                                count += data[other_ip]
-                                del data[other_ip]
-
-                        del cache[set]
-                        break
-
-                del data[name]
-
-                if rename:
-                    name = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(top_ip,
-                                                                                       config.ip_api_key)
-                else:
-                    name = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
-                                                                             config.ip_api_key,
-                                                                             name)
-
-                percentage = "%.2f" % float((count/total)*100.)
-                topten += "\n{} ({}): {}%".format(org, name, str(percentage))
-
-            file_list = glob.glob("/mnt/TLS/*.txt")
-            latest = max(file_list, key=os.path.getctime)
-            latest_tokens = latest.replace(".txt", "").split("-")
-            date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
-
-            message._client.send_message("mcg_sysops", "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
+            message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
 
 
 @respond_to("start", re.IGNORECASE)
