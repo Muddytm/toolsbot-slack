@@ -62,9 +62,10 @@ def sort_tls(limit=10):
             if orgs[org]["count"] > org_count:
                 org_name = org
                 org_count = orgs[org]["count"]
+                org_url = orgs[org]["url"]
 
-        percentage = "%.2f" % float((orgs_count/total)*100.)
-        top += "\n{} ({}): {}%".format(org_name, orgs[org]["url"], str(percentage))
+        percentage = "%.2f" % float((org_count/total)*100.)
+        top += "\n{} ({}): {}%".format(org_name, org_url, str(percentage))
         del orgs[org_name]
 
 
