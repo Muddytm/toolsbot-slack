@@ -28,38 +28,32 @@ def sort_tls(limit=10):
 
     orgs = {}
 
-    for i in range(limit):
-        #name = ""
-        #count = 0
+    for org in cache:
+        org_count = 0
+        ip_name = ""
+        ip_count = 0
+        rename = False
 
-        for org in cache:
-            org_count = 0
-            ip_name = ""
-            ip_count = 0
-            rename = False
+        for ip in cache[org]:
+            if ip in data:
+                if data[ip] > ip_count:
+                    if ip_count > 0:
+                        rename = True
+                    ip_count = data[ip]
+                    ip_name = ip
+                org_count += data[ip]
+            del data[ip]
 
-            for ip in cache[org]:
-                if ip in data:
-                    if data[ip] > ip_count:
-                        if ip_count > 0:
-                            rename = True
-                        ip_count = data[ip]
-                        ip_name = ip
-                    org_count += data[ip]
-                    del data[ip]
+        orgs[org] = {}
+        orgs[org]["count"] = org_count
 
-            orgs[org] = {}
-            orgs[org]["count"] = org_count
-
-
-            if rename:
-                orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(ip_name,
-                                                                                               config.ip_api_key)
-            else:
-                orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|{}>".format(ip_name,
-                                                                                     config.ip_api_key,
-                                                                                     ip_name)
-            del cache[org]
+        if rename:
+            orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(ip_name,
+                                                                                           config.ip_api_key)
+        else:
+            orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|{}>".format(ip_name,
+                                                                                 config.ip_api_key,
+                                                                                 ip_name)
 
     org_name = ""
     org_count = 0
