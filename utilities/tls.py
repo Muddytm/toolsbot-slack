@@ -42,7 +42,7 @@ def sort_tls(limit=10):
                     ip_count = data[ip]
                     ip_name = ip
                 org_count += data[ip]
-            del data[ip]
+            #del data[ip]
 
         orgs[org] = {}
         orgs[org]["count"] = org_count
