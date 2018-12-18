@@ -42,9 +42,7 @@ def starttls(message):
                     jobs = json.load(f)
 
                 if "TLS" in jobs:
-                    print (jobs)
                     jobs.remove("TLS")
-                    print (jobs)
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
                 else:
