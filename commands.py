@@ -6,7 +6,7 @@ from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 import re
 import time
-import utilities.tls as tls
+import utilities
 import urllib.request as urllib2
 
 tls_check = False
@@ -20,7 +20,7 @@ def test(message):
 @respond_to("tls", re.IGNORECASE)
 def tls(message):
     """Send test tls message."""
-    date, top, status = tls.sort_tls()
+    date, top, status = utilities.sort_tls()
 
     if status == 0:
         message.reply("Something broke. Ask Caleb what happened.")
@@ -62,16 +62,10 @@ def starttls(message):
                 #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
                 return
 
-            date, top, status = tls.sort_tls()
+            date, top, status = utilities.sort_tls()
 
             if status == 0:
                 message.reply("Something broke. Ask Caleb what happened.")
                 return
 
             message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
-
-
-@respond_to("start", re.IGNORECASE)
-def start(message):
-    """Start process of periodically sending message."""
-    pass
