@@ -26,7 +26,7 @@ def sort_tls(limit=10):
     for ip in data:
         total += data[ip]
 
-    for i in range():
+    for i in range(limit):
         name = ""
         count = 0
 
