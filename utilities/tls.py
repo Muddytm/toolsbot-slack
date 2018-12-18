@@ -26,46 +26,53 @@ def sort_tls(limit=10):
     for ip in data:
         total += data[ip]
 
+    orgs = {}
+
     for i in range(limit):
-        name = ""
-        count = 0
+        #name = ""
+        #count = 0
 
-        for ip in data:
-            if data[ip] > count:
-                name = ip
-                count = data[ip]
-                top_ip = name
-                top_ip_count = count
+        for org in cache:
+            org_count = 0
+            ip_name = ""
+            ip_count = 0
+            rename = False
 
-        rename = False
-        org = "Unknown"
-        for set in cache:
-            if name in cache[set]:
-                org = set
-                for other_ip in cache[set]:
-                    if other_ip != name and other_ip in data:
-                        if data[other_ip] > top_ip_count:
-                            top_ip = other_ip
-                            top_ip_count = data[other_ip]
-                        rename = True
-                        count += data[other_ip]
-                        del data[other_ip]
+            for ip in cache[org]:
+                if ip in data:
+                    if data[ip] > ip_count:
+                        if ip_count > 0:
+                            rename = True
+                        ip_count = data[ip]
+                        ip_name = ip
+                    org_count += data[ip]
+                    del data[ip]
 
-                del cache[set]
-                break
+            orgs[org] = {}
+            orgs[org]["count"] = org_count
 
-        del data[name]
 
-        if rename:
-            name = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(top_ip,
-                                                                               config.ip_api_key)
-        else:
-            name = "<https://api.ipdata.co/{}?api-key={}|{}>".format(name,
-                                                                     config.ip_api_key,
-                                                                     name)
+            if rename:
+                orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(ip_name,
+                                                                                               config.ip_api_key)
+            else:
+                orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|{}>".format(ip_name,
+                                                                                     config.ip_api_key,
+                                                                                     ip_name)
+            del cache[org]
 
-        percentage = "%.2f" % float((count/total)*100.)
-        top += "\n{} ({}): {}%".format(org, name, str(percentage))
+    org_name = ""
+    org_count = 0
+    for i in range(limit):
+        for org in orgs:
+            if orgs[org]["count"] > org_count:
+                org_name = org
+                org_count = orgs[org]["count"]
+
+
+        percentage = "%.2f" % float((orgs[org]["count"]/total)*100.)
+        top += "\n{} ({}): {}%".format(org, orgs[org]["url"], str(percentage))
+
 
     file_list = glob.glob("/mnt/TLS/*.txt")
     latest = max(file_list, key=os.path.getctime)
