@@ -68,4 +68,4 @@ def starttls(message):
                 message.reply("Something broke. Ask Caleb what happened.")
                 return
 
-            message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, topten))
+            message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
