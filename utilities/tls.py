@@ -6,6 +6,31 @@ import time
 import urllib.request as urllib2
 
 
+def fetch_tls(name):
+    """Print IPs that apply to whatever org name is given."""
+    with open("data/tls_cache.json") as f:
+        cache = json.load(f)
+
+    with open("data/tls.json") as f:
+        data = json.load(f)
+
+    total = 0
+    all_ips = ""
+    for org in cache:
+        if name in org.lower():
+            for ip in cache[org]:
+                if ip in data:
+                    total += data[ip]
+
+            for ip in cache[org]:
+                if ip in data:
+                    all_ips += "{} - {}\n".format(ip,
+                                                  "%.2f" % float((data[ip]/total)*100.))
+        break
+
+    print (all_ips)
+
+
 def sort_tls(limit=10):
     """Sorting the TLS hits."""
     with open("data/tls.json") as f:
@@ -75,3 +100,7 @@ def sort_tls(limit=10):
     date = "{}/{}/{}".format(latest_tokens[2], latest_tokens[3], latest_tokens[1])
 
     return date, top, 1
+
+
+if __name__ == '__main__':
+    fetch_tls("placeholder")
