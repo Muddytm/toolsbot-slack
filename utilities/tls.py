@@ -1,4 +1,4 @@
-import utilities.config as config
+import config
 import glob
 import json
 import os
@@ -26,7 +26,7 @@ def fetch_tls(name):
                 if ip in data:
                     all_ips += "{} - {}\n".format(ip,
                                                   "%.2f" % float((data[ip]/total)*100.))
-        break
+            break
 
     print (all_ips)
 

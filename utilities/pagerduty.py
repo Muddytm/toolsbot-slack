@@ -1,19 +1,25 @@
-import utilities.config as config
+import config
 import json
 import requests
 
-token = config.pd_token
 
-headers = {"Authorization": "Token token=" + token,
-           "Accept": "application/vnd.pagerduty+json;version=2"}
-r = requests.get("https://api.pagerduty.com/oncalls", headers=headers)
+def get_oncall():
+    """Get currently oncall from Pagerduty."""
+    token = config.pd_token
 
-oncalls = json.loads(r.text)
+    headers = {"Authorization": "Token token=" + token,
+               "Accept": "application/vnd.pagerduty+json;version=2"}
 
-#print (oncalls)
+    r = requests.get("https://api.pagerduty.com/oncalls", headers=headers)
 
-for oncall in oncalls["oncalls"]:
-    if "schedule" in oncall and oncall["schedule"]:
-        if "summary" in oncall["schedule"]:
-            if oncall["schedule"]["summary"] == "Ops Primary Contact":
-                print (oncall["user"]["summary"])
+    oncalls = json.loads(r.text)
+
+    name = ""
+    for oncall in oncalls["oncalls"]:
+        if "schedule" in oncall and oncall["schedule"]:
+            if "summary" in oncall["schedule"]:
+                if oncall["schedule"]["summary"] == "Ops Primary Contact":
+                    name = oncall["user"]["summary"]
+                    break
+
+    return name

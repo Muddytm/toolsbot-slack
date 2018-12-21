@@ -29,13 +29,14 @@ def tls(message):
     message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
 
 
-@listen_to("starttls", re.IGNORECASE)
+@listen_to("start", re.IGNORECASE)
 def starttls(message):
     """Start TLS loop."""
     if tls_check:
         return
     else:
         message._client.send_message(config.main_chan, "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
+        tls_check = True
         while True:
             if os.path.exists("data/jobs.json"):
                 with open("data/jobs.json") as f:
@@ -45,27 +46,36 @@ def starttls(message):
                     jobs.remove("TLS")
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
+
+                    with open("data/tls.json") as f:
+                        data = json.load(f)
+
+                    if os.path.exists("data/tls_cache.json"):
+                        with open("data/tls_cache.json") as f:
+                            cache = json.load(f)
+                    else:
+                        #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
+                        return
+
+                    date, top, status = utilities.sort_tls()
+
+                    if status == 0:
+                        message.reply("Something broke. Ask Caleb what happened.")
+                        return
+
+                    message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
+                if "PAGERDUTY" in jobs:
+                    jobs.remove("PAGERDUTY")
+                    with open("data/jobs.json", "w") as f:
+                        json.dump(jobs, f)
+
+                    name = utilities.get_oncall()
+
+                    if name:
+                        message._client.set_topic(config.main_chan, "ONCALL: " + name)
                 else:
                     time.sleep(60)
                     continue
             else:
                 time.sleep(60)
                 continue
-
-            with open("data/tls.json") as f:
-                data = json.load(f)
-
-            if os.path.exists("data/tls_cache.json"):
-                with open("data/tls_cache.json") as f:
-                    cache = json.load(f)
-            else:
-                #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
-                return
-
-            date, top, status = utilities.sort_tls()
-
-            if status == 0:
-                message.reply("Something broke. Ask Caleb what happened.")
-                return
-
-            message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
