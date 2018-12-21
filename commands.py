@@ -32,6 +32,8 @@ def tls(message):
 @listen_to("start", re.IGNORECASE)
 def starttls(message):
     """Start TLS loop."""
+    global tls_check
+    
     if tls_check:
         return
     else:
