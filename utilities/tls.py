@@ -1,4 +1,4 @@
-import config
+import utilities.config as config
 import glob
 import json
 import os

@@ -64,7 +64,7 @@ def starttls(message):
                         return
 
                     message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
-                if "PAGERDUTY" in jobs:
+                elif "PAGERDUTY" in jobs:
                     jobs.remove("PAGERDUTY")
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)

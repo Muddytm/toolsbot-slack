@@ -23,3 +23,16 @@ def get_oncall():
                     break
 
     return name
+
+
+if __name__ == '__main__':
+    if os.path.exists("data/jobs.json"):
+        with open("data/jobs.json") as f:
+            jobs = json.load(f)
+    else:
+        jobs = []
+
+    jobs.append("PAGERDUTY")
+
+    with open("data/jobs.json", "w") as f:
+        json.dump(jobs, f)
