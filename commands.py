@@ -5,6 +5,8 @@ import os
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 import re
+import requests
+import slackbot_settings
 import time
 import utilities
 import urllib.request as urllib2
@@ -33,7 +35,7 @@ def tls(message):
 def starttls(message):
     """Start TLS loop."""
     global tls_check
-    
+
     if tls_check:
         return
     else:
@@ -74,7 +76,16 @@ def starttls(message):
                     name = utilities.get_oncall()
 
                     if name:
-                        message._client.set_topic(config.main_chan, "ONCALL: " + name)
+                        for channel in message._client.channels:
+                            if channel["name"] == config.main_chan:
+                                chan = channel["id"]
+
+                        body = {"token": slackbot_settings.API_TOKEN,
+                                "channel": chan,
+                                "topic": "ONCALL: " + name}
+
+                        r = requests.post("https://slack.com/api/channels.setTopic",
+                                          data=body)
                 else:
                     time.sleep(60)
                     continue
