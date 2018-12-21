@@ -1,4 +1,7 @@
-import utilities.config as config
+try:
+    import utilities.config as config
+except ModuleNotFoundError:
+    import config
 import json
 import requests
 

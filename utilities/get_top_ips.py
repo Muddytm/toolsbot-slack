@@ -1,4 +1,7 @@
-import config
+try:
+    import utilities.config as config
+except ModuleNotFoundError:
+    import config
 import glob
 import json
 import os
