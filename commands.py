@@ -80,7 +80,7 @@ def starttls(message):
                             if channel["name"] == config.main_chan:
                                 chan = channel["id"]
 
-                        body = {"token": slackbot_settings.API_TOKEN,
+                        body = {"token": slackbot_settings.SCOPE_TOKEN,
                                 "channel": chan,
                                 "topic": "ONCALL: " + name}
 
