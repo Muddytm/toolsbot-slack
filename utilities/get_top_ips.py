@@ -33,8 +33,9 @@ else:
     cache = {}
 
 for ip in data:
-    url = "https://api.ipdata.co/{}?api-key={}".format(ip,
-                                                       config.ip_api_key)
+    url = "http://ip-api.com/json/{}".format(ip)
+    #url = "https://api.ipdata.co/{}?api-key={}".format(ip,
+    #                                                   config.ip_api_key)
     try:
         response = urllib2.urlopen(url)
         ip_data = response.read()
