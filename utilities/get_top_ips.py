@@ -7,6 +7,17 @@ import json
 import os
 import urllib.request as urllib2
 
+
+def match_ip(ip, start, end):
+    """Check if ip lies between start and end."""
+    ip_tokens = ip.split(".")
+    start_tokens = start.split(".")
+    end_tokens = end.split(".")
+
+    if int(ip_tokens[2]) >= int(start_tokens[2]) and int(ip_tokens[2]) <= int(end_tokens[2]):
+        if int(ip_tokens[3]) >= int(start_tokens[3]) and int(ip_tokens[3]) <= int(end_tokens[3]):
+            return True
+
 file_list = glob.glob("/mnt/TLS/*.txt")
 latest = max(file_list, key=os.path.getctime)
 print ("Getting info from..." + latest)
@@ -33,9 +44,23 @@ else:
     cache = {}
 
 for ip in data:
-    url = "http://ip-api.com/json/{}".format(ip)
-    #url = "https://api.ipdata.co/{}?api-key={}".format(ip,
-    #                                                   config.ip_api_key)
+
+    with open("data/aliases.json") as f:
+        aliases = json.load(f)
+
+    cont = False
+    for alias in aliases:
+        if match_ip(ip, alias["start"], alias["end"]):
+            cache[alias].append(ip)
+            cont = True
+            break
+
+    if cont:
+        continue
+
+    #url = "http://ip-api.com/json/{}".format(ip)
+    url = "https://api.ipdata.co/{}?api-key={}".format(ip,
+                                                       config.ip_api_key)
     try:
         response = urllib2.urlopen(url)
         ip_data = response.read()
