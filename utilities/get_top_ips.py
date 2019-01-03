@@ -71,8 +71,8 @@ for ip in data:
         info = {}
 
     org = "Unknown/Private"
-    if "org" in info: # used to be "organisation"
-        org = info["org"]
+    if "organisation" in info: # used to be "organisation"
+        org = info["organisation"]
 
     if org not in cache:
         cache[org] = []
