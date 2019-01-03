@@ -50,7 +50,7 @@ for ip in data:
 
     cont = False
     for alias in aliases:
-        if match_ip(ip, alias["start"], alias["end"]):
+        if match_ip(ip, aliases[alias]["start"], aliases[alias]["end"]):
             cache[alias].append(ip)
             cont = True
             break
