@@ -39,7 +39,7 @@ def starttls(message):
     if tls_check:
         return
     else:
-        message._client.send_message(config.main_chan, "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
+        #message._client.send_message(config.main_chan, "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
         tls_check = True
         while True:
             if os.path.exists("data/jobs.json"):
