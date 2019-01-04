@@ -72,7 +72,7 @@ def starttls(message):
                         message.reply("Something broke. Ask Caleb what happened.")
                         continue
 
-                    message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
+                    message._client.send_message(config.main_chan, "Top TLS 1.0/1.1 users for {}:\n```{}```".format(date, top))
                 elif "PAGERDUTY" in jobs:
                     jobs.remove("PAGERDUTY")
                     with open("data/jobs.json", "w") as f:
