@@ -75,7 +75,7 @@ def sort_tls(limit=10):
         orgs[org] = {}
         orgs[org]["count"] = org_count
 
-        if rename:
+        if len(cache[org]) > 1:
             orgs[org]["url"] = "<https://api.ipdata.co/{}?api-key={}|Multiple IPs>".format(ip_name,
                                                                                            config.ip_api_key)
         else:
