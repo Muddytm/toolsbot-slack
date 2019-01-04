@@ -1,4 +1,5 @@
 import utilities.config as config
+import datetime
 import glob
 import json
 import os
@@ -48,6 +49,10 @@ def starttls(message):
 
                 if "TLS" in jobs:
                     jobs.remove("TLS")
+
+                    if datetime.datetime.today().weekday() > 4:
+                        continue
+
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
 
@@ -59,13 +64,13 @@ def starttls(message):
                             cache = json.load(f)
                     else:
                         #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
-                        return
+                        continue
 
                     date, top, status = utilities.sort_tls()
 
                     if status == 0:
                         message.reply("Something broke. Ask Caleb what happened.")
-                        return
+                        continue
 
                     message._client.send_message(config.main_chan, "TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
                 elif "PAGERDUTY" in jobs:
