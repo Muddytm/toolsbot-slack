@@ -86,11 +86,14 @@ def sort_tls(limit=10):
     for i in range(limit):
         org_name = ""
         org_count = 0
-        for org in orgs:
-            if orgs[org]["count"] > org_count:
-                org_name = org
-                org_count = orgs[org]["count"]
-                org_url = orgs[org]["url"]
+        if orgs:
+            for org in orgs:
+                if orgs[org]["count"] > org_count:
+                    org_name = org
+                    org_count = orgs[org]["count"]
+                    org_url = orgs[org]["url"]
+        else:
+            break
 
         percentage = "%.2f" % float((org_count/total)*100.)
         top += "\n{} ({}): {}%".format(org_name, org_url, str(percentage))

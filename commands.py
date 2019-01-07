@@ -22,8 +22,20 @@ def test(message):
 
 @respond_to("tls", re.IGNORECASE)
 def tls(message):
-    """Send test tls message."""
+    """Get TLS stats."""
     date, top, status = utilities.sort_tls()
+
+    if status == 0:
+        message.reply("Something broke. Ask Caleb what happened.")
+        return
+
+    message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
+
+
+@listen_to("givemetls", re.IGNORECASE)
+def givemetls(message):
+    """Get full TLS stats."""
+    date, top, status = utilities.sort_tls(1000)
 
     if status == 0:
         message.reply("Something broke. Ask Caleb what happened.")
