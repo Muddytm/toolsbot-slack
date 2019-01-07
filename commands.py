@@ -32,7 +32,7 @@ def tls(message):
     message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
 
 
-@listen_to("allstats", re.IGNORECASE)
+@respond_to("allstats", re.IGNORECASE)
 def givemetls(message):
     """Get full TLS stats."""
     date, top, status = utilities.sort_tls(1000)
