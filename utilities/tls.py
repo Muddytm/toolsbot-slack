@@ -97,6 +97,10 @@ def sort_tls(limit=10):
 
         percentage = "%.2f" % float((org_count/total)*100.)
         top += "\n{} ({}): {}%".format(org_name, org_url, str(percentage))
+
+        if org_name == "":
+            break
+
         del orgs[org_name]
 
 
