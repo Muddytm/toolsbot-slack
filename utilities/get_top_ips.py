@@ -2,6 +2,7 @@ try:
     import utilities.config as config
 except ModuleNotFoundError:
     import config
+import datetime
 import glob
 import json
 import os
@@ -34,6 +35,12 @@ for line in lines:
         data[ip] += 1
 
 with open("data/tls.json", "w") as f:
+    json.dump(data, f)
+
+# Record the daily TLS information.
+day_int = datetime.datetime.today().weekday()
+days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+with open("data/tls_{}.json".format(days[day_int]), "w") as f:
     json.dump(data, f)
 
 # Assigning orgs and making cache
