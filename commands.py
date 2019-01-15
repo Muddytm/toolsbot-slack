@@ -99,7 +99,7 @@ def starttls(message):
                             data = (json.loads(r.text))
 
                             cur_name = (data["channel"]["topic"]["value"]).split(": ")[1]
-                            print (cur_name)
+                            #print (cur_name)
 
                             if "channel" in data:
                                 if "name" in data["channel"]:
