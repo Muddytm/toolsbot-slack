@@ -31,7 +31,7 @@ def fetch_tls(name):
                                                   "%.2f" % float((data[ip]/total)*100.))
             break
 
-    print (all_ips)
+    #print (all_ips)
 
 
 def sort_tls(limit=10):

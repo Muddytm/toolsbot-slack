@@ -107,7 +107,7 @@ def starttls(message):
                                         break
 
                         r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ONCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
-                        print (r.text)
+                        #print (r.text)
                 else:
                     time.sleep(60)
                     continue

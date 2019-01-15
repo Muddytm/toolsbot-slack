@@ -21,7 +21,7 @@ def match_ip(ip, start, end):
 
 file_list = glob.glob("/mnt/TLS/*.txt")
 latest = max(file_list, key=os.path.getctime)
-print ("Getting info from..." + latest)
+#print ("Getting info from..." + latest)
 lines = open(latest).readlines()
 
 data = {}
@@ -74,7 +74,7 @@ for ip in data:
         ip_data = response.read()
         info = json.loads(ip_data)
     except Exception as e: #placeholder since the specified exception was apparently not defined...?
-        print (e)
+        #print (e)
         info = {}
 
     org = "Unknown/Private"

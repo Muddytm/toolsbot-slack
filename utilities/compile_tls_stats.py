@@ -4,7 +4,7 @@ import os
 ip_info = {}
 
 for file in os.listdir("data/"):
-    print (file)
+    #print (file)
     if file.endswith("day.json"): # Get daily files
         with open("data/{}".format(file)) as f:
             data = json.loads(f.read())
