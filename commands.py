@@ -98,6 +98,9 @@ def starttls(message):
                             r = requests.get("https://slack.com/api/channels.info?token={}&channel={}".format(slackbot_settings.API_TOKEN, channel))
                             data = (json.loads(r.text))
 
+                            cur_name = (data["channel"]["topic"]["value"]).split(": ")[1]
+                            print (cur_name)
+
                             if "channel" in data:
                                 if "name" in data["channel"]:
                                     #print (config.main_chan + " " + data["channel"]["name"])
@@ -106,7 +109,8 @@ def starttls(message):
                                         #print (chan)
                                         break
 
-                        r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ONCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
+                        if cur_name != name:
+                            r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ON%2DCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
                         #print (r.text)
                 else:
                     time.sleep(60)
