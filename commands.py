@@ -94,15 +94,20 @@ def starttls(message):
 
                     if name:
                         for channel in message._client.channels:
-                            if channel["name"] == config.main_chan:
-                                chan = channel["id"]
+                            channel = config.main_chan_id # toolsbot: CCM0HCM6W
+                            r = requests.get("https://slack.com/api/channels.info?token={}&channel={}".format(slackbot_settings.API_TOKEN, channel))
+                            data = (json.loads(r.text))
 
-                        body = {"token": slackbot_settings.SCOPE_TOKEN,
-                                "channel": chan,
-                                "topic": "ONCALL: " + name}
+                            if "channel" in data:
+                                if "name" in data["channel"]:
+                                    #print (config.main_chan + " " + data["channel"]["name"])
+                                    if config.main_chan == data["channel"]["name"]:
+                                        chan = data["channel"]["id"]
+                                        #print (chan)
+                                        break
 
-                        r = requests.post("https://slack.com/api/channels.setTopic",
-                                          data=body)
+                        r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ONCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
+                        print (r.text)
                 else:
                     time.sleep(60)
                     continue
