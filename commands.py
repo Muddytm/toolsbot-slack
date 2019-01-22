@@ -39,7 +39,7 @@ def weeklytls(message):
 
     if status == 0:
         message.reply("Something broke. Ask Caleb what happened.")
-        continue
+        return
 
     message.reply("TLS 1.0/1.1 summary for {}:\n{}".format(date, top))
 
