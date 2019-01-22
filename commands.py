@@ -32,6 +32,19 @@ def tls(message):
     message.reply("TLS 1.0/1.1 summary for {}:\n```{}```".format(date, top))
 
 
+@respond_to("weekly", re.IGNORECASE)
+def weeklytls(message):
+    """Get TLS stats for the past week."""
+    date, top, status = utilities.sort_tls(1000, "weekly_stats")
+
+    if status == 0:
+        message.reply("Something broke. Ask Caleb what happened.")
+        continue
+
+    message.reply("TLS 1.0/1.1 summary for {}:\n{}".format(date, top))
+
+
+
 @respond_to("allstats", re.IGNORECASE)
 def givemetls(message):
     """Get full TLS stats."""
@@ -62,14 +75,11 @@ def starttls(message):
                 if "TLS" in jobs:
                     jobs.remove("TLS")
 
-                    if datetime.datetime.today().weekday() > 4:
-                        continue
-
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
 
-                    with open("data/tls.json") as f:
-                        data = json.load(f)
+                    if datetime.datetime.today().weekday() > 4:
+                        continue
 
                     if os.path.exists("data/tls_cache.json"):
                         with open("data/tls_cache.json") as f:

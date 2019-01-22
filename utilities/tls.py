@@ -34,9 +34,9 @@ def fetch_tls(name):
     #print (all_ips)
 
 
-def sort_tls(limit=10):
+def sort_tls(limit=10, file="tls"):
     """Sorting the TLS hits."""
-    with open("data/tls.json") as f:
+    with open("data/{}.json".format(file)) as f:
         data = json.load(f)
 
     if os.path.exists("data/tls_cache.json"):
