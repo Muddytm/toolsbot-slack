@@ -41,7 +41,7 @@ def weeklytls(message):
         message.reply("Something broke. Ask Caleb what happened.")
         return
 
-    message.reply("TLS 1.0/1.1 summary for {}:\n{}".format(date, top))
+    message.reply("TLS 1.0/1.1 summary for the last 7 days:\n{}".format(date, top))
 
 
 
