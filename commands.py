@@ -44,7 +44,6 @@ def weeklytls(message):
     message.reply("TLS 1.0/1.1 summary for the last 7 days:\n{}".format(top))
 
 
-
 @respond_to("allstats", re.IGNORECASE)
 def givemetls(message):
     """Get full TLS stats."""
