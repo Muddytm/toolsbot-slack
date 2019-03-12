@@ -99,7 +99,12 @@ def starttls(message):
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
 
-                    name = utilities.get_oncall()
+                    try:
+                        name = utilities.get_oncall()
+                    except JSONDecodeError:
+                        with open("most_recent_error.log", "w") as f:
+                            f.write(str(datetime.datetime.now()))
+                        continue
 
                     if name:
                         for channel in message._client.channels:
