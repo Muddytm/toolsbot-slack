@@ -25,17 +25,34 @@ latest = max(file_list, key=os.path.getctime)
 lines = open(latest).readlines()
 
 data = {}
+data1_2 = {}
+kurt_data = {}
 
 for line in lines:
     ip = line.split("ClientIP")[1].strip().split()[0]
+    kurt = line.split("GMT").strip().split()[0].split("-")[0] # Calling it this because idk what else to call it
 
     if ip not in data:
-        data[ip] = 1
+        if "TLSv1.2" in line:
+            data1_2[ip] = 1
+        else:
+            data[ip] = 1
+            kurt_data[kurt][ip] = 1
     else:
-        data[ip] += 1
+        if "TLSv1.2" in line:
+            data1_2[ip] += 1
+        else:
+            data[ip] += 1
+            kurt_data[kurt][ip] += 1
 
 with open("data/tls.json", "w") as f:
     json.dump(data, f)
+
+with open("data/tls1_2.json", "w") as f:
+    json.dump(data1_2, f)
+
+with open("data/tls_kurt.json", "w") as f:
+    json.dump(data1_2, f)
 
 # Record the daily TLS information.
 day_int = datetime.datetime.today().weekday()
