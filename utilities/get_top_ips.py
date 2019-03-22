@@ -30,7 +30,7 @@ kurt_data = {}
 
 for line in lines:
     ip = line.split("ClientIP")[1].strip().split()[0]
-    kurt = line.split("GMT").strip().split()[0].split("-")[0] # Calling it this because idk what else to call it
+    kurt = line.split("GMT")[1].strip().split()[0].split("-")[0] # Calling it this because idk what else to call it
 
     if ip not in data:
         if "TLSv1.2" in line:
