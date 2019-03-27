@@ -25,7 +25,7 @@ latest = max(file_list, key=os.path.getctime)
 lines = open(latest).readlines()
 
 data = {}
-kurt_data = {"dfw": {}, "sea": }
+kurt_data = {"dfw": {}, "sea": {}}
 
 for line in lines:
     ip = line.split("ClientIP")[1].strip().split()[0]
