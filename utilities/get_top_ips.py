@@ -36,7 +36,7 @@ for line in lines:
     else:
         data[ip] += 1
 
-    if ip not in data[kurt]:
+    if ip not in kurt_data[kurt]:
         kurt_data[kurt][ip] = 1
     else:
         kurt_data[kurt][ip] += 1
