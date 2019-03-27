@@ -32,15 +32,16 @@ for line in lines:
     kurt = line.split("GMT")[1].strip().split()[0].split("-")[0] # Calling it this because idk what else to call it
 
     if ip not in data:
-        print ("TLS 1.0/1.1: added {} ({})".format(ip, kurt))
         data[ip] = 1
+    else:
+        data[ip] += 1
+
+    if ip not in data[kurt]:
         kurt_data[kurt][ip] = 1
     else:
-        print ("TLS 1.0/1.1: added {} ({})".format(ip, kurt))
-        data[ip] += 1
         kurt_data[kurt][ip] += 1
 
-
+    print ("TLS 1.0/1.1: added {} ({})".format(ip, kurt))
 
 with open("data/tls.json", "w") as f:
     json.dump(data, f)
