@@ -65,7 +65,7 @@ def seastats(message):
         message.reply("Something broke. Ask Caleb what happened.")
         return
 
-    message.reply("SEA TLS 1.0/1.1 summary for {}:\n{}".format(top))
+    message.reply("SEA TLS 1.0/1.1 summary for {}:\n{}".format(date, top))
 
 
 @respond_to("allstats", re.IGNORECASE)
