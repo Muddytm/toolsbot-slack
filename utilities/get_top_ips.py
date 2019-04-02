@@ -81,13 +81,20 @@ for ip in data:
     #url = "http://ip-api.com/json/{}".format(ip)
     url = "https://api.ipdata.co/{}?api-key={}".format(ip,
                                                        config.ip_api_key)
-    try:
-        response = urllib2.urlopen(url)
-        ip_data = response.read()
-        info = json.loads(ip_data)
-    except Exception as e: #placeholder since the specified exception was apparently not defined...?
-        #print (e)
-        info = {}
+
+    for i in range(3):
+        try:
+            response = urllib2.urlopen(url)
+            ip_data = response.read()
+            info = json.loads(ip_data)
+        except Exception as e: #placeholder since the specified exception was apparently not defined...?
+            #print (e)
+            info = {}
+
+        if "organisation" in info:
+            break
+
+        time.sleep(1)
 
     org = "Unknown/Private"
     if "organisation" in info: # used to be "organisation"
