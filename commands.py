@@ -44,6 +44,30 @@ def weeklytls(message):
     message.reply("TLS 1.0/1.1 summary for the last 7 days:\n{}".format(top))
 
 
+@respond_to("dfwstats", re.IGNORECASE)
+def weeklytls(message):
+    """Get DFW stats for the past week."""
+    date, top, status = utilities.sort_tls(1000, "tls_dfw")
+
+    if status == 0:
+        message.reply("Something broke. Ask Caleb what happened.")
+        return
+
+    message.reply("DFW TLS 1.0/1.1 summary for {}:\n{}".format(top))
+
+
+@respond_to("seastats", re.IGNORECASE)
+def weeklytls(message):
+    """Get DFW stats for the past week."""
+    date, top, status = utilities.sort_tls(1000, "tls_sea")
+
+    if status == 0:
+        message.reply("Something broke. Ask Caleb what happened.")
+        return
+
+    message.reply("SEA TLS 1.0/1.1 summary for {}:\n{}".format(top))
+
+
 @respond_to("allstats", re.IGNORECASE)
 def givemetls(message):
     """Get full TLS stats."""
