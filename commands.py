@@ -53,7 +53,7 @@ def weeklytls(message):
         message.reply("Something broke. Ask Caleb what happened.")
         return
 
-    message.reply("DFW TLS 1.0/1.1 summary for {}:\n{}".format(top))
+    message.reply("DFW TLS 1.0/1.1 summary for {}:\n{}".format(date, top))
 
 
 @respond_to("seastats", re.IGNORECASE)
