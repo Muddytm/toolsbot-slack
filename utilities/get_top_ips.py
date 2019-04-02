@@ -40,12 +40,12 @@ for line in lines:
 
     if kurt.lower() == "dfw":
         if ip not in dfw_data:
-            dfw_data[ip] == 1
+            dfw_data[ip] = 1
         else:
             dfw_data[ip] += 1
     elif kurt.lower() == "sea":
         if ip not in sea_data:
-            sea_data[ip] == 1
+            sea_data[ip] = 1
         else:
             sea_data[ip] += 1
 
