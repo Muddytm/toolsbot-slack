@@ -45,7 +45,7 @@ def weeklytls(message):
 
 
 @respond_to("dfwstats", re.IGNORECASE)
-def weeklytls(message):
+def dfwstats(message):
     """Get DFW stats for the past week."""
     date, top, status = utilities.sort_tls(1000, "tls_dfw")
 
@@ -57,8 +57,8 @@ def weeklytls(message):
 
 
 @respond_to("seastats", re.IGNORECASE)
-def weeklytls(message):
-    """Get DFW stats for the past week."""
+def seastats(message):
+    """Get SEA stats for the past week."""
     date, top, status = utilities.sort_tls(1000, "tls_sea")
 
     if status == 0:
