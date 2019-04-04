@@ -3,16 +3,16 @@ import json
 
 results = "IP, TLS 1.0/1.1 CNT, Total TLS CNT, TLS 1.0/1.1 CNT to CareWeb, Total CNT to Careweb\n"
 
-with open("data/allstats/all_12_data.json") as f:
+with open("data/alldata/all_12_data.json") as f:
     all_12_data = json.load(f)
 
-with open("data/allstats/all_10_11_data.json") as f:
+with open("data/alldata/all_10_11_data.json") as f:
     all_10_11_data = json.load(f)
 
-with open("data/allstats/sea_12_data.json") as f:
+with open("data/alldata/sea_12_data.json") as f:
     sea_12_data = json.load(f)
 
-with open("data/allstats/sea_10_11_data.json") as f:
+with open("data/alldata/sea_10_11_data.json") as f:
     sea_10_11_data = json.load(f)
 
 for ip in all_12_data:
@@ -40,5 +40,5 @@ for ip in all_10_11_data:
         results += "{}\n".format(str(sea_12_data[ip]))
         results += "{}\n".format(str(sea_12_data[ip]))
 
-with open("data/allstats/tls_report.csv", "w") as f:
+with open("data/alldata/tls_report.csv", "w") as f:
     json.dump(results, f)
