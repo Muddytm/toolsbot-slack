@@ -15,7 +15,7 @@ dfw_10_11_data = {}
 sea_10_11_data = {}
 
 with open(latest) as f:
-    for line in lines:
+    for line in f:
         ip = line.split("ClientIP")[1].strip().split()[0]
         kurt = line.split("GMT")[1].strip().split()[0].split("-")[0] # Calling it this because idk what else to call it
 
