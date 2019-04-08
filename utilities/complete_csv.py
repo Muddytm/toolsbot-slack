@@ -62,4 +62,4 @@ for ip in all_10_11_data:
             results += "0\n"
 
 with open("data/alldata/tls_report.csv", "w") as f:
-    json.dump(results, f)
+    f.write(results)
