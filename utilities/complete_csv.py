@@ -39,7 +39,11 @@ for ip in all_12_data:
         results += "0, "
         results += "{}, ".format(str(all_12_data[ip]))
         results += "0, "
-        results += "{}\n".format(str(sea_12_data[ip]))
+
+        if ip in sea_12_data:
+            results += "{}\n".format(str(sea_12_data[ip]))
+        else:
+            results += "0\n"
 
 for ip in all_10_11_data:
     if ip in all_12_data:
