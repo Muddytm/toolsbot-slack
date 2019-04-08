@@ -2,3 +2,4 @@ slackbot_settings.py
 __pycache__/
 config.py
 data/*.json
+data/alldata/

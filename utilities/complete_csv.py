@@ -21,8 +21,20 @@ for ip in all_12_data:
     if ip in all_10_11_data:
         results += "{}, ".format(str(all_10_11_data[ip]))
         results += "{}, ".format(str(all_12_data[ip] + all_10_11_data[ip]))
-        results += "{}, ".format(str(sea_10_11_data[ip]))
-        results += "{}\n".format(str(sea_12_data[ip] + sea_10_11_data[ip]))
+
+        if ip in sea_10_11_data:
+            results += "{}, ".format(str(sea_10_11_data[ip]))
+            sea_10_11_count = sea_10_11_data[ip]
+        else:
+            results += "0, "
+            sea_10_11_count = 0
+
+        if ip in sea_12_data:
+            sea_12_count = sea_12_data[ip]
+        else:
+            sea_12_count = 0
+
+        results += "{}\n".format(str(sea_10_11_count + sea_12_count))
     else:
         results += "0, "
         results += "{}, ".format(str(all_12_data[ip]))
@@ -35,10 +47,15 @@ for ip in all_10_11_data:
     else:
         results += "{}, ".format(ip)
 
-        results += "{}, ".format(str(all_12_data[ip]))
-        results += "{}, ".format(str(all_12_data[ip]))
-        results += "{}\n".format(str(sea_12_data[ip]))
-        results += "{}\n".format(str(sea_12_data[ip]))
+        results += "{}, ".format(str(all_10_11_data[ip]))
+        results += "{}, ".format(str(all_10_11_data[ip]))
+
+        if ip in sea_10_11_data:
+            results += "{}, ".format(str(sea_10_11_data[ip]))
+            results += "{}\n".format(str(sea_10_11_data[ip]))
+        else:
+            results += "0, "
+            results += "0\n"
 
 with open("data/alldata/tls_report.csv", "w") as f:
     json.dump(results, f)
