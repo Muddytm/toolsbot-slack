@@ -1,3 +1,6 @@
+import json
+import os
+
 if os.path.exists("data/jobs.json"):
     with open("data/jobs.json") as f:
         jobs = json.load(f)
