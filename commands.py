@@ -150,6 +150,12 @@ def starttls(message):
                         if cur_name != name:
                             r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ON%2DCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
                         #print (r.text)
+                elif "MAINTENANCE" in jobs:
+                    jobs.remove("MAINTENANCE")
+                    with open("data/jobs.json", "w") as f:
+                        json.dump(jobs, f)
+
+                    message._client.send_message(config.maint_chan, "Testing")
                 else:
                     time.sleep(60)
                     continue
