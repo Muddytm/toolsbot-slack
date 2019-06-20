@@ -20,6 +20,15 @@ def test(message):
     message.reply("Greetings!")
 
 
+@respond_to("fulltlsreport", re.IGNORECASE)
+def fulltlsreport(message):
+    """Get full tls report"""
+    with open("data/alldata/tls_report.csv") as f:
+        data = f.read()
+
+    message.reply(data)
+
+
 @respond_to("tls", re.IGNORECASE)
 def tls(message):
     """Get TLS stats."""
