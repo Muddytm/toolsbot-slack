@@ -1,4 +1,5 @@
 import utilities.config as config
+import csv
 import datetime
 import glob
 import json
@@ -23,7 +24,14 @@ def test(message):
 @respond_to("fulltlsreport", re.IGNORECASE)
 def fulltlsreport(message):
     """Get full tls report"""
-    with open("data/alldata/tls_report.csv") as f:
+
+    output=open("data/alldata/tls_report.txt", "w")
+
+    with open("data/alldata/tls_report.csv", "rt", encoding="ascii") as f:
+        for row in f:
+            output.write(row)
+
+    with open("data/alldata/tls_report.txt") as f:
         data = f.read()
 
     message.reply(data)
