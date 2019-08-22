@@ -120,13 +120,13 @@ for ip in data:
 with open("data/tls_cache.json", "w") as f:
     json.dump(cache, f)
 
-if os.path.exists("data/jobs.json"):
-    with open("data/jobs.json") as f:
-        jobs = json.load(f)
-else:
-    jobs = []
-
-jobs.append("TLS")
-
-with open("data/jobs.json", "w") as f:
-    json.dump(jobs, f)
+# if os.path.exists("data/jobs.json"):
+#     with open("data/jobs.json") as f:
+#         jobs = json.load(f)
+# else:
+#     jobs = []
+#
+# jobs.append("TLS")
+#
+# with open("data/jobs.json", "w") as f:
+#     json.dump(jobs, f)
