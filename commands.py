@@ -112,30 +112,30 @@ def starttls(message):
                 with open("data/jobs.json") as f:
                     jobs = json.load(f)
 
-                if "TLS" in jobs:
-                    jobs.remove("TLS")
-
-                    with open("data/jobs.json", "w") as f:
-                        json.dump(jobs, f)
-
-                    if datetime.datetime.today().weekday() > 4:
-                        continue
-
-                    if os.path.exists("data/tls_cache.json"):
-                        with open("data/tls_cache.json") as f:
-                            cache = json.load(f)
-                    else:
-                        #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
-                        continue
-
-                    date, top, status = utilities.sort_tls()
-
-                    if status == 0:
-                        message.reply("Something broke. Ask Caleb what happened.")
-                        continue
-
-                    message._client.send_message(config.main_chan, "Top TLS 1.0/1.1 users for {}:\n```{}```".format(date, top))
-                elif "PAGERDUTY" in jobs:
+                # if "TLS" in jobs:
+                #     jobs.remove("TLS")
+                #
+                #     with open("data/jobs.json", "w") as f:
+                #         json.dump(jobs, f)
+                #
+                #     if datetime.datetime.today().weekday() > 4:
+                #         continue
+                #
+                #     if os.path.exists("data/tls_cache.json"):
+                #         with open("data/tls_cache.json") as f:
+                #             cache = json.load(f)
+                #     else:
+                #         #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
+                #         continue
+                #
+                #     date, top, status = utilities.sort_tls()
+                #
+                #     if status == 0:
+                #         message.reply("Something broke. Ask Caleb what happened.")
+                #         continue
+                #
+                #     message._client.send_message(config.main_chan, "Top TLS 1.0/1.1 users for {}:\n```{}```".format(date, top))
+                if "PAGERDUTY" in jobs:
                     jobs.remove("PAGERDUTY")
                     with open("data/jobs.json", "w") as f:
                         json.dump(jobs, f)
@@ -167,12 +167,12 @@ def starttls(message):
                         if cur_name != name:
                             r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ON%2DCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
                         #print (r.text)
-                elif "MAINTENANCE" in jobs:
-                    jobs.remove("MAINTENANCE")
-                    with open("data/jobs.json", "w") as f:
-                        json.dump(jobs, f)
+                #elif "MAINTENANCE" in jobs:
+                #    jobs.remove("MAINTENANCE")
+                #    with open("data/jobs.json", "w") as f:
+                #        json.dump(jobs, f)
 
-                    message._client.send_message(config.maint_chan, "Testing")
+                #    message._client.send_message(config.maint_chan, "Testing")
                 else:
                     time.sleep(60)
                     continue
