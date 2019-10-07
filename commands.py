@@ -105,36 +105,12 @@ def starttls(message):
     if tls_check:
         return
     else:
-        #message._client.send_message(config.main_chan, "Posting TLS stats daily at 8 AM! (Unless I break. Fingers crossed.)")
         tls_check = True
         while True:
             if os.path.exists("data/jobs.json"):
                 with open("data/jobs.json") as f:
                     jobs = json.load(f)
 
-                # if "TLS" in jobs:
-                #     jobs.remove("TLS")
-                #
-                #     with open("data/jobs.json", "w") as f:
-                #         json.dump(jobs, f)
-                #
-                #     if datetime.datetime.today().weekday() > 4:
-                #         continue
-                #
-                #     if os.path.exists("data/tls_cache.json"):
-                #         with open("data/tls_cache.json") as f:
-                #             cache = json.load(f)
-                #     else:
-                #         #message.reply("No cache to read from. Contact Caleb Hawkins to get this fixed.")
-                #         continue
-                #
-                #     date, top, status = utilities.sort_tls()
-                #
-                #     if status == 0:
-                #         message.reply("Something broke. Ask Caleb what happened.")
-                #         continue
-                #
-                #     message._client.send_message(config.main_chan, "Top TLS 1.0/1.1 users for {}:\n```{}```".format(date, top))
                 if "PAGERDUTY" in jobs:
                     jobs.remove("PAGERDUTY")
                     with open("data/jobs.json", "w") as f:
@@ -149,30 +125,20 @@ def starttls(message):
 
                     if name:
                         for channel in message._client.channels:
-                            channel = config.main_chan_id # toolsbot: CCM0HCM6W
+                            channel = config.main_chan_id
                             r = requests.get("https://slack.com/api/channels.info?token={}&channel={}".format(slackbot_settings.API_TOKEN, channel))
                             data = (json.loads(r.text))
 
                             cur_name = (data["channel"]["topic"]["value"]).split(": ")[1]
-                            #print (cur_name)
 
                             if "channel" in data:
                                 if "name" in data["channel"]:
-                                    #print (config.main_chan + " " + data["channel"]["name"])
                                     if config.main_chan == data["channel"]["name"]:
                                         chan = data["channel"]["id"]
-                                        #print (chan)
                                         break
 
                         if cur_name != name:
                             r = requests.post("https://slack.com/api/channels.setTopic?token={}&channel={}&topic=ON%2DCALL%3A%20{}".format(slackbot_settings.SCOPE_TOKEN, chan, name))
-                        #print (r.text)
-                #elif "MAINTENANCE" in jobs:
-                #    jobs.remove("MAINTENANCE")
-                #    with open("data/jobs.json", "w") as f:
-                #        json.dump(jobs, f)
-
-                #    message._client.send_message(config.maint_chan, "Testing")
                 else:
                     time.sleep(60)
                     continue
