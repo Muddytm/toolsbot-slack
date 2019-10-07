@@ -11,11 +11,11 @@ data = {"sea": {"1.0": {"new": {}, "reuse": {}}, "1.1": {"new": {}, "reuse": {}}
 for line in lines:
     if "SSL_HANDSHAKE_SUCCESS" in line:
         tokens = line.split()
-        loc = tokens[4].split("-")[0]
+        loc = tokens[4].split("-")[0].lower()
         ip = tokens[17]
         tls = tokens[29]
         tls_num = tls.split("v")[1]
-        session = tokens[38]
+        session = tokens[38].lower()
         print ("{} {} {} {}".format(loc, ip, tls, session))
 
         if ip not in data[loc][tls_num][session]:
