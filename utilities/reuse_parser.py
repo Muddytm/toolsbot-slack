@@ -27,27 +27,36 @@ output = "IP, SEA/DFW, TLS, NEW/REUSE, COUNT"
 
 for i in data["sea"]["1.0"]["new"]:
     output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.0", "new", data["sea"]["1.0"]["new"][i]))
-
-for i in data["sea"]["1.0"]["reuse"]:
-    output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.0", "reuse", data["sea"]["1.0"]["reuse"][i]))
+    if i in data["sea"]["1.0"]["reuse"]:
+        output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.0", "reuse", data["sea"]["1.0"]["reuse"][i]))
+        del data["sea"]["1.0"]["reuse"][i]
 
 for i in data["sea"]["1.1"]["new"]:
     output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.1", "new", data["sea"]["1.1"]["new"][i]))
-
-for i in data["sea"]["1.1"]["reuse"]:
-    output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.1", "reuse", data["sea"]["1.1"]["reuse"][i]))
+    if i in data["sea"]["1.1"]["reuse"]:
+        output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.1", "reuse", data["sea"]["1.1"]["reuse"][i]))
+        del data["sea"]["1.1"]["reuse"][i]
 
 # --------
 
 for i in data["dfw"]["1.0"]["new"]:
     output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.0", "new", data["dfw"]["1.0"]["new"][i]))
-
-for i in data["dfw"]["1.0"]["reuse"]:
-    output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.0", "reuse", data["dfw"]["1.0"]["reuse"][i]))
+    if i in data["dfw"]["1.0"]["reuse"]:
+        output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.0", "reuse", data["dfw"]["1.0"]["reuse"][i]))
+        del data["dfw"]["1.0"]["reuse"][i]
 
 for i in data["dfw"]["1.1"]["new"]:
     output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.1", "new", data["dfw"]["1.1"]["new"][i]))
+    if i in data["dfw"]["1.1"]["reuse"]:
+        output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.1", "reuse", data["dfw"]["1.1"]["reuse"][i]))
+        del data["dfw"]["1.1"]["reuse"][i]
 
+for i in data["sea"]["1.0"]["reuse"]:
+    output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.0", "reuse", data["sea"]["1.0"]["reuse"][i]))
+for i in data["sea"]["1.1"]["reuse"]:
+    output += ("{}, {}, {}, {}, {}\n".format(i, "sea", "1.1", "reuse", data["sea"]["1.1"]["reuse"][i]))
+for i in data["dfw"]["1.0"]["reuse"]:
+    output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.0", "reuse", data["dfw"]["1.0"]["reuse"][i]))
 for i in data["dfw"]["1.1"]["reuse"]:
     output += ("{}, {}, {}, {}, {}\n".format(i, "dfw", "1.1", "reuse", data["dfw"]["1.1"]["reuse"][i]))
 
